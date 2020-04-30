@@ -12,12 +12,13 @@ exports.up = async function(knex) {
 
     await knex.schema.createTable('steps', (table) => {
         table.increments('id')
-        table.text('instructions').notNull()
+        table.text('instructions').notNull().unique()
         table.integer('recipe_id')
             .references('id')
             .inTable('recipes')
             .onDelete('SET NULL')
             .onUpdate('CASCADE')
+        table.integer('step_number').notNull()
     })
 
     await knex.schema.createTable('recipes_ingredients', (table) => {
